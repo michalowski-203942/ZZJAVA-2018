@@ -8,7 +8,7 @@ import backend.datastore.entities.Transaction;
 import backend.dto.TransactionInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -31,5 +31,41 @@ public class TransactionService {
         Category category = categoryRepository.getCategoriesByName(transactionInfo.getCategory());
         transaction.setCategory(category);
         return transactionRepository.saveAndFlush(transaction).getId();
+    }
+
+    public List<TransactionInfo> getAllTransactionsBetweenDates(Date start, Date end) {
+
+        List<Transaction> transactions = transactionRepository.getAllTransactionsBetweenDates(start,end);
+        return transactions.stream()
+                .map(TransactionConverter::toTransactionInfo)
+                .collect(Collectors.toList());
+    }
+
+    public List<TransactionInfo> getAllRevenues(Date start, Date end) {
+
+        List<Transaction> transactions = transactionRepository.getAllRevenues(start,end);
+        return transactions.stream()
+                .map(TransactionConverter::toTransactionInfo)
+                .collect(Collectors.toList());
+    }
+
+    public List<TransactionInfo> getAllExpenses(Date start, Date end) {
+
+        List<Transaction> transactions = transactionRepository.getAllExpenses(start,end);
+        return transactions.stream()
+                .map(TransactionConverter::toTransactionInfo)
+                .collect(Collectors.toList());
+    }
+
+    public float getAllBalance() {
+
+        float balance = transactionRepository.getAllBalance();
+        return balance;
+    }
+
+    public float getBalanceBetweenDates(Date start, Date end) {
+
+        float balance = transactionRepository.getBalanceBetweenDates(start,end);
+        return balance;
     }
 }
