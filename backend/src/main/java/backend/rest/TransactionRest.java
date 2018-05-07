@@ -1,5 +1,6 @@
 package backend.rest;
 
+import backend.datastore.entities.Category;
 import backend.dto.TransactionInfo;
 import backend.service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,36 @@ public class TransactionRest {
             method = RequestMethod.POST)
     public ResponseEntity addTransaction(@RequestBody TransactionInfo transaction){
         return ResponseEntity.ok(service.addTransaction(transaction));
+    }
+
+    //pobranie wszystkich przychodow
+    @RequestMapping(value = "/incomes", method = RequestMethod.GET)
+    public ResponseEntity getAllIncomes()
+    {
+        return ResponseEntity.ok(service.getAllIncomes());
+    }
+
+    //pobranie wszystkich wydatkow
+    @RequestMapping(value = "/expenditures", method = RequestMethod.GET)
+    public ResponseEntity getAllExpenditures()
+    {
+        return ResponseEntity.ok(service.getAllExpenditures());
+    }
+
+    //pobranie wszystkich przychodow z danej kategorii
+    @RequestMapping(value = "/{categoryName}/incomes", method = RequestMethod.GET)
+    public ResponseEntity getAllIncomesFromCategory(
+            @PathVariable String categoryName){
+
+        return ResponseEntity.ok(service.getAllIncomesFromCategory(categoryName));
+    }
+
+    //pobranie wszystkich wydatkow z danej kategorii
+    @RequestMapping(value = "/{categoryName}/expenditures", method = RequestMethod.GET)
+    public ResponseEntity getAllExpendituresFromCategory(
+            @PathVariable String categoryName){
+
+        return ResponseEntity.ok(service.getAllExpendituresFromCategory(categoryName));
     }
 
     @RequestMapping(value = "/date?{startDate}&{endDate}/all", method = RequestMethod.GET)

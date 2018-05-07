@@ -33,6 +33,44 @@ public class TransactionService {
         return transactionRepository.saveAndFlush(transaction).getId();
     }
 
+    //pobranie wszystkich przychodow
+    public List<TransactionInfo> getAllIncomes() {
+
+        List<Transaction> transactions = transactionRepository.getAllIncomes();
+        return transactions.stream()
+                .map(TransactionConverter::toTransactionInfo)
+                .collect(Collectors.toList());
+    }
+
+    //pobranie wszystkich wydatkow
+    public List<TransactionInfo> getAllExpenditures() {
+
+        List<Transaction> transactions = transactionRepository.getAllExpenditures();
+        return transactions.stream()
+                .map(TransactionConverter::toTransactionInfo)
+                .collect(Collectors.toList());
+    }
+
+    //pobranie wszystkich przychodow z danej kategorii
+    public List<TransactionInfo> getAllIncomesFromCategory(String categoryName) {
+
+        List<Transaction> transactions = transactionRepository.getAllIncomesFromCategory(categoryName);
+        return transactions.stream()
+                .map(TransactionConverter::toTransactionInfo)
+                .collect(Collectors.toList());
+    }
+
+    //pobranie wszystkich wydatkow z danej kategorii
+    public List<TransactionInfo> getAllExpendituresFromCategory(String categoryName) {
+
+        List<Transaction> transactions = transactionRepository.getAllExpendituresFromCategory(categoryName);
+        return transactions.stream()
+                .map(TransactionConverter::toTransactionInfo)
+                .collect(Collectors.toList());
+    }
+
+    //--------------------------
+
     public List<TransactionInfo> getAllTransactionsBetweenDates(Date start, Date end) {
 
         List<Transaction> transactions = transactionRepository.getAllTransactionsBetweenDates(start,end);
