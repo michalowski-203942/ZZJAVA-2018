@@ -1,6 +1,10 @@
 group 'budget.app'
 version '1.0-SNAPSHOT'
 
+task wrapper(type: Wrapper) {
+    gradleVersion = '4.7'
+}
+
 buildscript {
     repositories {
         mavenCentral()
