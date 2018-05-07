@@ -6,6 +6,9 @@ before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
   - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
 
+before_install:
+  - chmod +x ./backend/gradlew
+
 cache:
   directories:
     - $HOME/.gradle/caches/
@@ -13,4 +16,5 @@ cache:
 
 install: true
 
-script: ./gradlew clean build --refresh-dependencies --no-daemon -p "backend"
+script: 
+- "./backend/gradlew clean build --refresh-dependencies --no-daemon -p 'backend'"
