@@ -5,8 +5,7 @@ insert into category(id, name) values (4, 'clothing');
 insert into category(id, name) values (5, 'transportation');
 insert into category(id, name) values (6, 'personal');
 insert into category(id, name) values (7, 'transfer');
-
-
+INSERT INTO users (username,password_hash,active,deleted) VALUES ('admin', '$2a$10$d8gv6jyA/He8va6QMSEEmuwpQM1XFKgEgj8TTGxJ13lHBQ6ftT9Bm', TRUE,FALSE);
 insert into transaction(id, description, value, date, category_id) VALUES (1,'pyrki - 1 tona',-467,'2018-01-01',1);
 insert into transaction(id, description, value, date, category_id) VALUES (2,'przewóz pyrków',-20,'2018-01-01',5);
 insert into transaction(id, description, value, date, category_id) VALUES (3,'cholinex, serevent dysk, flixotide, zyrtec',-200,'2018-01-04',2);
