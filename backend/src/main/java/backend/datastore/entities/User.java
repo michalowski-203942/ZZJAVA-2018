@@ -17,6 +17,6 @@ public class User {
     private String username;
     private String passwordHash;
     private String token;
-   private boolean active;
+    private boolean active;
     private boolean deleted;
 }
