@@ -2,6 +2,8 @@ package backend.rest;
 
 import backend.datastore.entities.Category;
 import backend.dto.TransactionInfo;
+import backend.exception.AppException;
+import backend.exception.IncorrectParamsException;
 import backend.service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -28,8 +30,12 @@ public class TransactionRest {
 
     @RequestMapping(value = "/add",
             method = RequestMethod.POST)
-    public ResponseEntity addTransaction(@RequestBody TransactionInfo transaction){
-        return ResponseEntity.ok(service.addTransaction(transaction));
+    public ResponseEntity addTransaction(@RequestBody TransactionInfo transaction, HttpServletRequest request){
+        try {
+            return ResponseEntity.ok(service.addTransaction(transaction,request.getUserPrincipal().getName()));
+        } catch (IncorrectParamsException | AppException e) {
+            return ResponseEntity.status(400).build();
+        }
     }
 
     //pobranie wszystkich przychodow
