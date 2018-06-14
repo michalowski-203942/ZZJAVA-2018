@@ -2,6 +2,8 @@ package backend.rest;
 
 import backend.datastore.entities.Category;
 import backend.dto.TransactionInfo;
+import backend.exception.AppException;
+import backend.exception.IncorrectParamsException;
 import backend.service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -10,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.PathVariable;
+
+import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 
 @RestController
@@ -20,14 +24,18 @@ public class TransactionRest {
 
     @RequestMapping(value = "/all",
             method = RequestMethod.GET)
-    public ResponseEntity getAllTransactions(){
-        return ResponseEntity.ok(service.getAllTransactions());
+    public ResponseEntity getAllTransactions(HttpServletRequest request){
+        return ResponseEntity.ok(service.getAllTransactions(request.getUserPrincipal().getName()));
     }
 
     @RequestMapping(value = "/add",
             method = RequestMethod.POST)
-    public ResponseEntity addTransaction(@RequestBody TransactionInfo transaction){
-        return ResponseEntity.ok(service.addTransaction(transaction));
+    public ResponseEntity addTransaction(@RequestBody TransactionInfo transaction, HttpServletRequest request){
+        try {
+            return ResponseEntity.ok(service.addTransaction(transaction,request.getUserPrincipal().getName()));
+        } catch (IncorrectParamsException | AppException e) {
+            return ResponseEntity.status(400).build();
+        }
     }
 
     //pobranie wszystkich przychodow
