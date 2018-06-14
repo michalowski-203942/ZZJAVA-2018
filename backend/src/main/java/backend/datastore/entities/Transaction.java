@@ -13,9 +13,10 @@ import java.sql.Date;
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
 @Entity
 @Table(name = "transaction")
+@SequenceGenerator(name="seq_t", initialValue=1000)
 public class Transaction {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="seq_t")
     private Long id;
 
     @NotBlank

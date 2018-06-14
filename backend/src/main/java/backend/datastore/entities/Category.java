@@ -2,10 +2,7 @@ package backend.datastore.entities;
 
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 
 @Data
@@ -14,9 +11,10 @@ import javax.validation.constraints.NotBlank;
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
 @Entity
 @Table(name = "category")
+@SequenceGenerator(name = "seq_c", initialValue = 1000)
 public class Category {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_c")
     private Long id;
 
     @NotBlank
