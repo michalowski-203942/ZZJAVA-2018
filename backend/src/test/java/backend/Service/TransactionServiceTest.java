@@ -43,7 +43,7 @@ public class TransactionServiceTest {
 
     @Test
     public void testNumberOfTransactions() {
-        int count = service.getAllTransactions().size();
+        int count = service.getAllTransactions("user").size();
         assertEquals(3, count);
     }
 
@@ -51,7 +51,7 @@ public class TransactionServiceTest {
     public void testDescriptionOfTransactions() {
         List<String> expectedNames = Arrays.asList("des1", "des2", "des3");
 
-        List<String> names =  service.getAllTransactions()
+        List<String> names =  service.getAllTransactions("user")
                 .stream()
                 .map(TransactionInfo::getDescription)
                 .collect(Collectors.toList());
@@ -88,7 +88,7 @@ public class TransactionServiceTest {
                 .description("des3")
                 .value(-15F)
                 .build();
-        Mockito.when(transactionRepository.findAll()).thenReturn(Arrays.asList(t1,t2,t3));
+        Mockito.when(transactionRepository.findAllByUserName("user")).thenReturn(Arrays.asList(t1,t2,t3));
     }
 
 
