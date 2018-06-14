@@ -2,9 +2,8 @@ package backend.datastore.entities;
 
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.List;
 
 @Data
 @Builder
@@ -19,4 +18,8 @@ public class User {
     private String token;
     private boolean active;
     private boolean deleted;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id")
+    private List<Transaction> transactions;
 }
