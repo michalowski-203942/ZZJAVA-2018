@@ -22,7 +22,7 @@ insert into transaction(id, description, value, date, category_id, user_id) VALU
 insert into transaction(id, description, value, date, category_id, user_id) VALUES (13,'ucieczka w Bieszczady',-200,'2018-01-18',5,'user');
 insert into transaction(id, description, value, date, category_id, user_id) VALUES (14,'chleb, dżem, cappy',-9,'2018-01-19',1,'user');
 insert into transaction(id, description, value, date, category_id, user_id) VALUES (15,'olej rycynowy',-5,'2018-01-20',2,'user');
-insert into transaction(id, description, value, date, category_id, user_id) VALUES (16,'sukienka, torebka, buty',-350,'2018-01-21',4)
+insert into transaction(id, description, value, date, category_id, user_id) VALUES (16,'sukienka, torebka, buty',-350,'2018-01-21',4,'admin')
 insert into transaction(id, description, value, date, category_id, user_id) VALUES (17,'fryzjer',-60,'2018-01-24',6,'admin');
 insert into transaction(id, description, value, date, category_id, user_id) VALUES (18,'karnet na siłownie',-120,'2018-01-25',6,'user');
 insert into transaction(id, description, value, date, category_id, user_id) VALUES (19,'wypłata',4670,'2018-02-01',7,'admin');

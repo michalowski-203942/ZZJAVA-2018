@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.PathVariable;
+
+import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 
 @RestController
@@ -20,8 +22,8 @@ public class TransactionRest {
 
     @RequestMapping(value = "/all",
             method = RequestMethod.GET)
-    public ResponseEntity getAllTransactions(){
-        return ResponseEntity.ok(service.getAllTransactions());
+    public ResponseEntity getAllTransactions(HttpServletRequest request){
+        return ResponseEntity.ok(service.getAllTransactions(request.getUserPrincipal().getName()));
     }
 
     @RequestMapping(value = "/add",

@@ -51,4 +51,7 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
             "t.date >= :startDate AND t.date <= :endDate ")
     float getBalanceBetweenDates(@Param("startDate") Date startDate, @Param("endDate") Date endDate);
 
+    @Query("SELECT DISTINCT t FROM User u join u.transactions t WHERE " +
+            "u.username = :username")
+    List<Transaction> findAllByUserName(String username);
 }

@@ -19,8 +19,8 @@ public class TransactionService {
     @Autowired
     private CategoryRepository categoryRepository;
 
-    public List<TransactionInfo> getAllTransactions() {
-        List<Transaction> transactions = transactionRepository.findAll();
+    public List<TransactionInfo> getAllTransactions(String username) {
+        List<Transaction> transactions = transactionRepository.findAllByUserName(username);
         return transactions.stream()
                 .map(TransactionConverter::toTransactionInfo)
                 .collect(Collectors.toList());
