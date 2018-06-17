@@ -12,7 +12,7 @@ import java.sql.Date;
 @AllArgsConstructor(access = AccessLevel.PUBLIC)
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
 @Entity
-@Table(name = "transaction")
+@Table(name = "transactions")
 @SequenceGenerator(name="seq_t", initialValue=1000)
 public class Transaction {
     @Id
@@ -27,6 +27,10 @@ public class Transaction {
 
     @NotNull
     private Date date;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
     @NotNull
     @ManyToOne

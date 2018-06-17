@@ -29,7 +29,7 @@ public class TransactionService {
     private UserRepository userRepository;
 
     public List<TransactionInfo> getAllTransactions(String username) {
-        List<Transaction> transactions = transactionRepository.findAllByUserName(username);
+        List<Transaction> transactions = transactionRepository.findAllByUsername(username);
         return transactions.stream()
                 .map(TransactionConverter::toTransactionInfo)
                 .collect(Collectors.toList());
@@ -56,36 +56,36 @@ public class TransactionService {
     }
 
     //pobranie wszystkich przychodow
-    public List<TransactionInfo> getAllIncomes() {
+    public List<TransactionInfo> getAllIncomes(String username) {
 
-        List<Transaction> transactions = transactionRepository.getAllIncomes();
+        List<Transaction> transactions = transactionRepository.getAllIncomes(username);
         return transactions.stream()
                 .map(TransactionConverter::toTransactionInfo)
                 .collect(Collectors.toList());
     }
 
     //pobranie wszystkich wydatkow
-    public List<TransactionInfo> getAllExpenditures() {
+    public List<TransactionInfo> getAllExpenditures(String username) {
 
-        List<Transaction> transactions = transactionRepository.getAllExpenditures();
+        List<Transaction> transactions = transactionRepository.getAllExpenditures(username);
         return transactions.stream()
                 .map(TransactionConverter::toTransactionInfo)
                 .collect(Collectors.toList());
     }
 
     //pobranie wszystkich przychodow z danej kategorii
-    public List<TransactionInfo> getAllIncomesFromCategory(String categoryName) {
+    public List<TransactionInfo> getAllIncomesFromCategory(String username, String categoryName) {
 
-        List<Transaction> transactions = transactionRepository.getAllIncomesFromCategory(categoryName);
+        List<Transaction> transactions = transactionRepository.getAllIncomesFromCategory(username, categoryName);
         return transactions.stream()
                 .map(TransactionConverter::toTransactionInfo)
                 .collect(Collectors.toList());
     }
 
     //pobranie wszystkich wydatkow z danej kategorii
-    public List<TransactionInfo> getAllExpendituresFromCategory(String categoryName) {
+    public List<TransactionInfo> getAllExpendituresFromCategory(String username, String categoryName) {
 
-        List<Transaction> transactions = transactionRepository.getAllExpendituresFromCategory(categoryName);
+        List<Transaction> transactions = transactionRepository.getAllExpendituresFromCategory(username, categoryName);
         return transactions.stream()
                 .map(TransactionConverter::toTransactionInfo)
                 .collect(Collectors.toList());
@@ -93,39 +93,39 @@ public class TransactionService {
 
     //--------------------------
 
-    public List<TransactionInfo> getAllTransactionsBetweenDates(Date start, Date end) {
+    public List<TransactionInfo> getAllTransactionsBetweenDates(String username, Date start, Date end) {
 
-        List<Transaction> transactions = transactionRepository.getAllTransactionsBetweenDates(start, end);
+        List<Transaction> transactions = transactionRepository.getAllTransactionsBetweenDates(username, start, end);
         return transactions.stream()
                 .map(TransactionConverter::toTransactionInfo)
                 .collect(Collectors.toList());
     }
 
-    public List<TransactionInfo> getAllRevenues(Date start, Date end) {
+    public List<TransactionInfo> getAllRevenues(String username, Date start, Date end) {
 
-        List<Transaction> transactions = transactionRepository.getAllRevenues(start, end);
+        List<Transaction> transactions = transactionRepository.getAllRevenues(username, start, end);
         return transactions.stream()
                 .map(TransactionConverter::toTransactionInfo)
                 .collect(Collectors.toList());
     }
 
-    public List<TransactionInfo> getAllExpenses(Date start, Date end) {
+    public List<TransactionInfo> getAllExpenses(String username, Date start, Date end) {
 
-        List<Transaction> transactions = transactionRepository.getAllExpenses(start, end);
+        List<Transaction> transactions = transactionRepository.getAllExpenses(username, start, end);
         return transactions.stream()
                 .map(TransactionConverter::toTransactionInfo)
                 .collect(Collectors.toList());
     }
 
-    public float getAllBalance() {
+    public float getAllBalance(String username) {
 
-        float balance = transactionRepository.getAllBalance();
+        float balance = transactionRepository.getAllBalance(username);
         return balance;
     }
 
-    public float getBalanceBetweenDates(Date start, Date end) {
+    public float getBalanceBetweenDates(String username, Date start, Date end) {
 
-        float balance = transactionRepository.getBalanceBetweenDates(start, end);
+        float balance = transactionRepository.getBalanceBetweenDates(username, start, end);
         return balance;
     }
 }
