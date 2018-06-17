@@ -1,20 +1,33 @@
 package backend.Entities;
 
 
+import backend.datastore.dao.CategoryRepository;
+import backend.datastore.dao.TransactionRepository;
+import backend.datastore.dao.UserRepository;
+import backend.datastore.entities.Category;
+import backend.datastore.entities.Transaction;
+import backend.dto.CategoryInfo;
+import backend.dto.NewUser;
 import backend.dto.TransactionInfo;
 import backend.exception.AppException;
 import backend.exception.IncorrectParamsException;
+import backend.service.CategoryService;
+import backend.service.RegisterService;
 import backend.service.TransactionService;
+
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.sql.Date;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
@@ -27,20 +40,40 @@ public class TransactionTest {
 
         @Bean
         public TransactionService transactionService() { return new TransactionService(); }
+        @Bean
+        public RegisterService registerService() { return new RegisterService(); }
+        @Bean
+        public CategoryService categoryService() {return new CategoryService(); }
     }
 
     @Autowired
-    private TransactionService service;
+    private TransactionService transactionService;
+    @Autowired
+    private RegisterService registerService;
+    @Autowired
+    private CategoryService categoryService;
 
+    @MockBean
+    private TransactionRepository transactionRepository;
+    @MockBean
+    private UserRepository userRepository;
+    @MockBean
+    private CategoryRepository categoryRepository;
+
+
+    @Before
+    public void init() throws IncorrectParamsException, AppException {
+
+    }
     @Test
     public void getAllTransactionsBetweenDates() {
 
        try{
                 TransactionInfo firstTInfo=new TransactionInfo().builder().category("test").date( new Date(2018,10,20)).description("opis").value(100).id(1L).build();
                 TransactionInfo secondTInfo=new TransactionInfo().builder().category("test").date(new Date(2018,11,20)).description("opis").value(-100).id(2L).build();
-                service.addTransaction(firstTInfo,"tester");
-                service.addTransaction(secondTInfo,"tester");
-                assertEquals(service.getAllTransactionsBetweenDates("tester",new Date(2018,9,30),new Date(2018,10,30)),1);
+                transactionService.addTransaction(firstTInfo,"tester");
+                transactionService.addTransaction(secondTInfo,"tester");
+                assertEquals(transactionService.getAllTransactionsBetweenDates("tester",new Date(2018,9,30),new Date(2018,10,30)),1);
        } catch (IncorrectParamsException|AppException e) {
                 ResponseEntity.status(400).build();
        }
@@ -51,9 +84,9 @@ public class TransactionTest {
         try{
             TransactionInfo firstTInfo=new TransactionInfo().builder().category("test").date( new Date(2018,10,20)).description("opis").value(100).id(1L).build();
             TransactionInfo secondTInfo=new TransactionInfo().builder().category("test").date(new Date(2018,11,20)).description("opis").value(-100).id(2L).build();
-            service.addTransaction(firstTInfo,"tester");
-            service.addTransaction(secondTInfo,"tester");
-            assertEquals(service.getAllRevenues("tester",new Date(2018,9,30),new Date(2018,10,30)),1);
+            transactionService.addTransaction(firstTInfo,"tester");
+            transactionService.addTransaction(secondTInfo,"tester");
+            assertEquals(transactionService.getAllRevenues("tester",new Date(2018,9,30),new Date(2018,10,30)),1);
         } catch (IncorrectParamsException|AppException e) {
             ResponseEntity.status(400).build();
         }
@@ -64,9 +97,9 @@ public class TransactionTest {
         try{
             TransactionInfo firstTInfo=new TransactionInfo().builder().category("test").date( new Date(2018,10,20)).description("opis").value(100).id(1L).build();
             TransactionInfo secondTInfo=new TransactionInfo().builder().category("test").date(new Date(2018,11,20)).description("opis").value(-100).id(2L).build();
-            service.addTransaction(firstTInfo,"tester");
-            service.addTransaction(secondTInfo,"tester");
-            assertEquals(service.getAllExpenses("tester",new Date(2018,9,30),new Date(2018,10,30)),1);
+            transactionService.addTransaction(firstTInfo,"tester");
+            transactionService.addTransaction(secondTInfo,"tester");
+            assertEquals(transactionService.getAllExpenses("tester",new Date(2018,9,30),new Date(2018,10,30)),1);
         } catch (IncorrectParamsException|AppException e) {
             ResponseEntity.status(400).build();
         }
@@ -77,9 +110,9 @@ public class TransactionTest {
         try{
             TransactionInfo firstTInfo=new TransactionInfo().builder().category("test").date( new Date(2018,10,20)).description("opis").value(100).id(1L).build();
             TransactionInfo secondTInfo=new TransactionInfo().builder().category("test").date(new Date(2018,11,20)).description("opis").value(-100).id(2L).build();
-            service.addTransaction(firstTInfo,"tester");
-            service.addTransaction(secondTInfo,"tester");
-            assertEquals(service.getAllBalance("tester"),0.0);
+            transactionService.addTransaction(firstTInfo,"tester");
+            transactionService.addTransaction(secondTInfo,"tester");
+            assertEquals(transactionService.getAllBalance("tester"),0.0);
         } catch (IncorrectParamsException|AppException e) {
             ResponseEntity.status(400).build();
         }
@@ -90,9 +123,9 @@ public class TransactionTest {
         try{
             TransactionInfo firstTInfo=new TransactionInfo().builder().category("test").date( new Date(2018,10,20)).description("opis").value(100).id(1L).build();
             TransactionInfo secondTInfo=new TransactionInfo().builder().category("test").date(new Date(2018,11,20)).description("opis").value(-100).id(2L).build();
-            service.addTransaction(firstTInfo,"tester");
-            service.addTransaction(secondTInfo,"tester");
-            assertEquals(service.getBalanceBetweenDates("tester",new Date(2018,9,30),new Date(2018,10,30)),1);
+            transactionService.addTransaction(firstTInfo,"tester");
+            transactionService.addTransaction(secondTInfo,"tester");
+            assertEquals(transactionService.getBalanceBetweenDates("tester",new Date(2018,9,30),new Date(2018,10,30)),1);
         } catch (IncorrectParamsException|AppException e) {
             ResponseEntity.status(400).build();
         }
@@ -101,12 +134,12 @@ public class TransactionTest {
     @Test
     public void deleteTransaction() {
         try{
-            TransactionInfo firstTInfo=new TransactionInfo().builder().category("test").date( new Date(2018,10,20)).description("opis").value(100).id(1L).build();
-            TransactionInfo secondTInfo=new TransactionInfo().builder().category("test").date(new Date(2018,11,20)).description("opis").value(-100).id(2L).build();
-            service.addTransaction(firstTInfo,"tester");
-            service.addTransaction(secondTInfo,"tester");
-            service.deleteTransaction(1L,"tester");
-            assertEquals(service.getAllTransactions("tester"),1);
+            TransactionInfo firstTInfo= TransactionInfo.builder().category("test").date( new Date(2018,10,20)).description("opis").value(100).build();
+            TransactionInfo secondTInfo=new TransactionInfo().builder().category("test").date(new Date(2018,11,20)).description("opis").value(-100).build();
+            transactionService.addTransaction(firstTInfo,"tester");
+            transactionService.addTransaction(secondTInfo,"tester");
+            transactionService.deleteTransaction(1L,"tester");
+            assertEquals(transactionService.getAllTransactions("tester"),1);
         } catch (IncorrectParamsException|AppException e) {
             ResponseEntity.status(400).build();
         }
@@ -116,9 +149,9 @@ public class TransactionTest {
     public void getTransaction() {
         try{
             TransactionInfo firstTInfo=new TransactionInfo().builder().category("test").date( new Date(2018,10,20)).description("opis").value(100).id(1L).build();
-            service.addTransaction(firstTInfo,"tester");
-            service.deleteTransaction(1L,"tester");
-            assertEquals(service.getTransactionById(1L),firstTInfo);
+            transactionService.addTransaction(firstTInfo,"tester");
+            transactionService.deleteTransaction(1L,"tester");
+            assertEquals(transactionService.getTransactionById(1L),firstTInfo);
         } catch (IncorrectParamsException|AppException e) {
             ResponseEntity.status(400).build();
         }
@@ -129,11 +162,14 @@ public class TransactionTest {
         try{
             TransactionInfo firstTInfo=new TransactionInfo().builder().category("test").date( new Date(2018,10,20)).description("opis").value(100).id(1L).build();
             TransactionInfo secondTInfo=new TransactionInfo().builder().category("test").date(new Date(2018,11,20)).description("opis").value(-100).id(1L).build();
-            service.addTransaction(firstTInfo,"tester");
-            service.editTransaction(secondTInfo);
-            assertEquals(service.getTransactionById(1L),secondTInfo);
+            transactionService.addTransaction(firstTInfo,"tester");
+            transactionService.editTransaction(secondTInfo);
+            assertEquals(transactionService.getTransactionById(1L),secondTInfo);
         } catch (IncorrectParamsException|AppException e) {
             ResponseEntity.status(400).build();
         }
     }
+
+
+
 }
