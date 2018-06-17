@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping("/api/category")
@@ -18,9 +17,8 @@ public class CategoryRest {
     @Autowired
     private CategoryService service;
 
-    @RequestMapping(value = "/add",
-            method = RequestMethod.POST)
-    public ResponseEntity addCategory(@RequestBody CategoryInfo category, HttpServletRequest request){
+    @RequestMapping(value = "/add", method = RequestMethod.POST)
+    public ResponseEntity addCategory(@RequestBody CategoryInfo category){
         try {
             return ResponseEntity.ok(service.addCategory(category));
         } catch (IncorrectParamsException | AppException e) {
