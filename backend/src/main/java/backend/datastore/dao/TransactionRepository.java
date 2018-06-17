@@ -54,4 +54,5 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
     @Query("SELECT DISTINCT t FROM User u join u.transactions t WHERE " +
             "u.username = :username")
     List<Transaction> findAllByUserName(String username);
+
 }

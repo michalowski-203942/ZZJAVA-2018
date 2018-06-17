@@ -108,4 +108,30 @@ public class TransactionRest {
 
         return ResponseEntity.ok(service.getBalanceBetweenDates(startDate,endDate));
     }
+
+
+    @RequestMapping(value = "/{transactionId}/delete", method = RequestMethod.DELETE)
+    public ResponseEntity deleteTransaction (@PathVariable Long transactionId, HttpServletRequest request){
+        try {
+            service.deleteTransaction(transactionId,request.getUserPrincipal().getName());
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            return ResponseEntity.status(400).build();
+        }
+    }
+
+    @RequestMapping(value = "/{transactionId}/get", method = RequestMethod.GET)
+    public ResponseEntity getTransaction(@PathVariable Long transactionId){
+        return ResponseEntity.ok(service.getTransactionById(transactionId));
+    }
+    @RequestMapping(value ="/edit", method = RequestMethod.PUT)
+    public ResponseEntity editTransaction(@RequestBody TransactionInfo transaction,  HttpServletRequest request){
+        try {
+            service.editTransaction(transaction,request.getUserPrincipal().getName());
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            return ResponseEntity.status(400).build();
+        }
+    }
 }
+
