@@ -25,4 +25,24 @@ public class RegisterRest {
            return ResponseEntity.status(400).build();
         }
     }
+
+    @RequestMapping(method = RequestMethod.DELETE)
+    public ResponseEntity deleteNewUser(@RequestBody NewUser newUser){
+        try {
+            registerService.deleteNewUser(newUser.getUsername());
+            return ResponseEntity.ok().build();
+        } catch (IncorrectParamsException e) {
+            return ResponseEntity.status(400).build();
+        }
+    }
+
+    @RequestMapping(method = RequestMethod.PUT)
+    public ResponseEntity setNewUserAsActive(@RequestBody NewUser newUser){
+        try {
+            registerService.setNewUserAsActive(newUser.getUsername());
+            return ResponseEntity.ok().build();
+        } catch (IncorrectParamsException e) {
+            return ResponseEntity.status(400).build();
+        }
+    }
 }

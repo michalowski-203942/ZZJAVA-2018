@@ -19,6 +19,6 @@ public class User {
     private boolean active;
     private boolean deleted;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    @OneToMany(mappedBy = "user")
     private List<Transaction> transactions;
 }
