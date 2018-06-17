@@ -28,8 +28,8 @@ public class Transaction {
     @NotNull
     private Date date;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
     private User user;
 
     @NotNull

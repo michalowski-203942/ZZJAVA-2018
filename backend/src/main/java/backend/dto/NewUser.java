@@ -9,4 +9,6 @@ import lombok.*;
 public class NewUser {
     private String username;
     private String password;
+    private boolean deleted;
+    private boolean active;
 }
