@@ -6,6 +6,7 @@ import backend.exception.AppException;
 import backend.exception.IncorrectParamsException;
 import backend.service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,7 +33,7 @@ public class TransactionRest {
             method = RequestMethod.POST)
     public ResponseEntity addTransaction(@RequestBody TransactionInfo transaction, HttpServletRequest request){
         try {
-            return ResponseEntity.ok(service.addTransaction(transaction,request.getUserPrincipal().getName()));
+            return ResponseEntity.ok(service.addTransaction(transaction, request.getUserPrincipal().getName()));
         } catch (IncorrectParamsException | AppException e) {
             return ResponseEntity.status(400).build();
         }
@@ -40,73 +41,80 @@ public class TransactionRest {
 
     //pobranie wszystkich przychodow
     @RequestMapping(value = "/incomes", method = RequestMethod.GET)
-    public ResponseEntity getAllIncomes()
+    public ResponseEntity getAllIncomes(
+           HttpServletRequest request)
     {
-        return ResponseEntity.ok(service.getAllIncomes());
+        return ResponseEntity.ok(service.getAllIncomes(request.getUserPrincipal().getName()));
     }
 
     //pobranie wszystkich wydatkow
     @RequestMapping(value = "/expenditures", method = RequestMethod.GET)
-    public ResponseEntity getAllExpenditures()
+    public ResponseEntity getAllExpenditures(
+            HttpServletRequest request)
     {
-        return ResponseEntity.ok(service.getAllExpenditures());
+        return ResponseEntity.ok(service.getAllExpenditures(request.getUserPrincipal().getName()));
     }
 
     //pobranie wszystkich przychodow z danej kategorii
     @RequestMapping(value = "/{categoryName}/incomes", method = RequestMethod.GET)
     public ResponseEntity getAllIncomesFromCategory(
+            HttpServletRequest request,
             @PathVariable String categoryName){
 
-        return ResponseEntity.ok(service.getAllIncomesFromCategory(categoryName));
+        return ResponseEntity.ok(service.getAllIncomesFromCategory(request.getUserPrincipal().getName(), categoryName));
     }
 
     //pobranie wszystkich wydatkow z danej kategorii
     @RequestMapping(value = "/{categoryName}/expenditures", method = RequestMethod.GET)
     public ResponseEntity getAllExpendituresFromCategory(
+             HttpServletRequest request,
             @PathVariable String categoryName){
 
-        return ResponseEntity.ok(service.getAllExpendituresFromCategory(categoryName));
+        return ResponseEntity.ok(service.getAllExpendituresFromCategory(request.getUserPrincipal().getName(), categoryName));
     }
 
-    @RequestMapping(value = "/date?{startDate}&{endDate}/all", method = RequestMethod.GET)
+    @RequestMapping(value = "/{startDate}/{endDate}/all", method = RequestMethod.GET)
     public ResponseEntity getAllTransactionsBetweenDates(
-            @PathVariable Date startDate,
-            @PathVariable Date endDate){
+            HttpServletRequest request,
+            @PathVariable ("startDate") @DateTimeFormat(pattern="yyyy-MM-dd'T'HH:mm:ss") Date startDate,
+            @PathVariable ("endDate") @DateTimeFormat(pattern="yyyy-MM-dd'T'HH:mm:ss") Date endDate){
 
-        return ResponseEntity.ok(service.getAllTransactionsBetweenDates(startDate,endDate));
+        return ResponseEntity.ok(service.getAllTransactionsBetweenDates(request.getUserPrincipal().getName(), startDate,endDate));
     }
 
-    @RequestMapping(value = "/date?{startDate}&{endDate}/revenues", method = RequestMethod.GET)
+    @RequestMapping(value = "/{startDate}/{endDate}/revenues", method = RequestMethod.GET)
     public ResponseEntity getAllRevenues(
-            @PathVariable Date startDate,
-            @PathVariable Date endDate){
+            HttpServletRequest request,
+            @PathVariable ("startDate") @DateTimeFormat(pattern="yyyy-MM-dd'T'HH:mm:ss") Date startDate,
+            @PathVariable  ("endDate") @DateTimeFormat(pattern="yyyy-MM-dd'T'HH:mm:ss") Date endDate){
 
-        return ResponseEntity.ok(service.getAllRevenues(startDate,endDate));
+        return ResponseEntity.ok(service.getAllRevenues(request.getUserPrincipal().getName(), startDate,endDate));
     }
 
-    @RequestMapping(value = "/date?{startDate}&{endDate}/expenses", method = RequestMethod.GET)
+    @RequestMapping(value = "/{startDate}/{endDate}/expenses", method = RequestMethod.GET)
     public ResponseEntity getAllExpenses(
-            @PathVariable Date startDate,
-            @PathVariable Date endDate){
+            HttpServletRequest request,
+            @PathVariable ("startDate") @DateTimeFormat(pattern="yyyy-MM-dd'T'HH:mm:ss")Date startDate,
+            @PathVariable ("endDate") @DateTimeFormat(pattern="yyyy-MM-dd'T'HH:mm:ss") Date endDate){
 
-        return ResponseEntity.ok(service.getAllExpenses(startDate,endDate));
+        return ResponseEntity.ok(service.getAllExpenses(request.getUserPrincipal().getName(), startDate,endDate));
     }
 
     @RequestMapping(value = "/balance", method = RequestMethod.GET)
     public ResponseEntity getAllBalance(
-            @PathVariable Date startDate,
-            @PathVariable Date endDate){
+            HttpServletRequest request){
 
-        return ResponseEntity.ok(service.getAllBalance());
+        return ResponseEntity.ok(service.getAllBalance(request.getUserPrincipal().getName()));
     }
 
 
-    @RequestMapping(value = "/date?{startDate}&{endDate}/balance", method = RequestMethod.GET)
+    @RequestMapping(value = "/{startDate}/{endDate}/balance", method = RequestMethod.GET)
     public ResponseEntity getBalanceBetweenDates(
-            @PathVariable Date startDate,
-            @PathVariable Date endDate){
+            HttpServletRequest request,
+            @PathVariable ("startDate") @DateTimeFormat(pattern="yyyy-MM-dd'T'HH:mm:ss") Date startDate,
+            @PathVariable ("endDate") @DateTimeFormat(pattern="yyyy-MM-dd'T'HH:mm:ss") Date endDate){
 
-        return ResponseEntity.ok(service.getBalanceBetweenDates(startDate,endDate));
+        return ResponseEntity.ok(service.getBalanceBetweenDates(request.getUserPrincipal().getName(), startDate, endDate));
     }
 
 
@@ -114,10 +122,11 @@ public class TransactionRest {
     public ResponseEntity deleteTransaction (@PathVariable Long transactionId, HttpServletRequest request){
         try {
             service.deleteTransaction(transactionId,request.getUserPrincipal().getName());
-            return ResponseEntity.ok().build();
+
         } catch (Exception e) {
             return ResponseEntity.status(400).build();
         }
+        return ResponseEntity.ok().build();
     }
 
     @RequestMapping(value = "/{transactionId}/get", method = RequestMethod.GET)

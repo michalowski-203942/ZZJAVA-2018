@@ -88,7 +88,7 @@ public class TransactionServiceTest {
                 .description("des3")
                 .value(-15F)
                 .build();
-        Mockito.when(transactionRepository.findAllByUserName("user")).thenReturn(Arrays.asList(t1,t2,t3));
+        Mockito.when(transactionRepository.findAllByUsername("user")).thenReturn(Arrays.asList(t1,t2,t3));
     }
 
 
