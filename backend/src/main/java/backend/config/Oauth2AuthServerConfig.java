@@ -29,7 +29,7 @@ public class Oauth2AuthServerConfig extends AuthorizationServerConfigurerAdapter
 
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-        clients.inMemory().withClient("frontendClientId").secret("$2a$10$d8gv6jyA/He8va6QMSEEmuwpQM1XFKgEgj8TTGxJ13lHBQ6ftT9Bm").authorizedGrantTypes("password", "authorization_code", "refresh_token").accessTokenValiditySeconds(3600).refreshTokenValiditySeconds(28 * 24 * 3600).scopes("read");
+        clients.inMemory().withClient("frontendClientId").secret("$2a$10$d8gv6jyA/He8va6QMSEEmuwpQM1XFKgEgj8TTGxJ13lHBQ6ftT9Bm").authorizedGrantTypes("password", "refresh_token").accessTokenValiditySeconds(3600).refreshTokenValiditySeconds(28 * 24 * 3600).scopes("read");
     }
 
     @Override

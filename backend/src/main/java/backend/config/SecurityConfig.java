@@ -14,13 +14,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.sql.DataSource;
-import java.sql.ResultSet;
 
 @Configuration
 @EnableWebSecurity
-/*
-@Order(SecurityProperties.) //niewymagana, ale zalecana
-*/
+
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
