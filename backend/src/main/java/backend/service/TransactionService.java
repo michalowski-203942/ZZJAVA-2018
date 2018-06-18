@@ -129,17 +129,11 @@ public class TransactionService {
         return balance;
     }
 
-    public void deleteTransaction(Long transactionId, String username) throws IncorrectParamsException, AppException {
+    public void deleteTransaction(Long transactionId) throws IncorrectParamsException, AppException {
 
-        Optional<User> userQuery = userRepository.findById(username);
-        if(!userQuery.isPresent()){
-            throw new AppException("User does not exists");
-        }
-        User user = userQuery.get();
         try{
-            transactionRepository.deleteById(transactionId);
-            user.getTransactions().removeIf(x->x.getId()==transactionId);
-            userRepository.saveAndFlush(user);
+            transactionRepository.deleteId(transactionId);
+
         } catch(ConstraintViolationException e){
             throw new IncorrectParamsException("Incorrect transaction data", e);
         }
