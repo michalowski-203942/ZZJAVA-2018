@@ -153,26 +153,18 @@ public class TransactionService {
             return TransactionConverter.toTransactionInfo(transaction);
     }
 
-    public void editTransaction(TransactionInfo transactionInfo, String username) throws AppException, IncorrectParamsException {
+    public void editTransaction(TransactionInfo transactionInfo) throws AppException, IncorrectParamsException {
         Transaction transactionToUpdate = transactionRepository.getOne(transactionInfo.getId());
         Category category = categoryRepository.getCategoriesByName(transactionInfo.getCategory());
         transactionToUpdate.setCategory(category);
         transactionToUpdate.setValue(transactionInfo.getValue());
         transactionToUpdate.setDescription(transactionInfo.getDescription());
         transactionToUpdate.setDate(transactionInfo.getDate());
-        Optional<User> userQuery = userRepository.findById(username);
-        if(!userQuery.isPresent()){
-            throw new AppException("User does not exists");
-        }
-        User user = userQuery.get();
 
         try {
             transactionRepository.saveAndFlush(transactionToUpdate);
-            for(int i=0;i<user.getTransactions().size();i++){
-                if(user.getTransactions().get(i).getId()==transactionToUpdate.getId())
-                user.getTransactions().set(i,transactionToUpdate);
-            }
-            userRepository.saveAndFlush(user);
+
+
             } catch (ConstraintViolationException e) {
             throw new IncorrectParamsException("Incorrect transaction data", e);
         }

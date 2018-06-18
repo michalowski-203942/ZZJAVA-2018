@@ -76,8 +76,8 @@ public class TransactionRest {
     @RequestMapping(value = "/{startDate}/{endDate}/all", method = RequestMethod.GET)
     public ResponseEntity getAllTransactionsBetweenDates(
             HttpServletRequest request,
-            @PathVariable ("startDate") @DateTimeFormat(pattern="yyyy-MM-dd'T'HH:mm:ss") Date startDate,
-            @PathVariable ("endDate") @DateTimeFormat(pattern="yyyy-MM-dd'T'HH:mm:ss") Date endDate){
+            @PathVariable ("startDate") @DateTimeFormat(pattern="yyyy-MM-dd") Date startDate,
+            @PathVariable ("endDate") @DateTimeFormat(pattern="yyyy-MM-dd") Date endDate){
 
         return ResponseEntity.ok(service.getAllTransactionsBetweenDates(request.getUserPrincipal().getName(), startDate,endDate));
     }
@@ -85,8 +85,8 @@ public class TransactionRest {
     @RequestMapping(value = "/{startDate}/{endDate}/revenues", method = RequestMethod.GET)
     public ResponseEntity getAllRevenues(
             HttpServletRequest request,
-            @PathVariable ("startDate") @DateTimeFormat(pattern="yyyy-MM-dd'T'HH:mm:ss") Date startDate,
-            @PathVariable  ("endDate") @DateTimeFormat(pattern="yyyy-MM-dd'T'HH:mm:ss") Date endDate){
+            @PathVariable ("startDate") @DateTimeFormat(pattern="yyyy-MM-dd") Date startDate,
+            @PathVariable  ("endDate") @DateTimeFormat(pattern="yyyy-MM-dd") Date endDate){
 
         return ResponseEntity.ok(service.getAllRevenues(request.getUserPrincipal().getName(), startDate,endDate));
     }
@@ -94,8 +94,8 @@ public class TransactionRest {
     @RequestMapping(value = "/{startDate}/{endDate}/expenses", method = RequestMethod.GET)
     public ResponseEntity getAllExpenses(
             HttpServletRequest request,
-            @PathVariable ("startDate") @DateTimeFormat(pattern="yyyy-MM-dd'T'HH:mm:ss")Date startDate,
-            @PathVariable ("endDate") @DateTimeFormat(pattern="yyyy-MM-dd'T'HH:mm:ss") Date endDate){
+            @PathVariable ("startDate") @DateTimeFormat(pattern="yyyy-MM-dd")Date startDate,
+            @PathVariable ("endDate") @DateTimeFormat(pattern="yyyy-MM-dd") Date endDate){
 
         return ResponseEntity.ok(service.getAllExpenses(request.getUserPrincipal().getName(), startDate,endDate));
     }
@@ -111,14 +111,14 @@ public class TransactionRest {
     @RequestMapping(value = "/{startDate}/{endDate}/balance", method = RequestMethod.GET)
     public ResponseEntity getBalanceBetweenDates(
             HttpServletRequest request,
-            @PathVariable ("startDate") @DateTimeFormat(pattern="yyyy-MM-dd'T'HH:mm:ss") Date startDate,
-            @PathVariable ("endDate") @DateTimeFormat(pattern="yyyy-MM-dd'T'HH:mm:ss") Date endDate){
+            @PathVariable ("startDate") @DateTimeFormat(pattern="yyyy-MM-dd") Date startDate,
+            @PathVariable ("endDate") @DateTimeFormat(pattern="yyyy-MM-dd") Date endDate){
 
         return ResponseEntity.ok(service.getBalanceBetweenDates(request.getUserPrincipal().getName(), startDate, endDate));
     }
 
 
-    @RequestMapping(value = "/{transactionId}/delete", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/{transactionId}", method = RequestMethod.DELETE)
     public ResponseEntity deleteTransaction (@PathVariable Long transactionId, HttpServletRequest request){
         try {
             service.deleteTransaction(transactionId,request.getUserPrincipal().getName());
@@ -129,14 +129,14 @@ public class TransactionRest {
         return ResponseEntity.ok().build();
     }
 
-    @RequestMapping(value = "/{transactionId}/get", method = RequestMethod.GET)
+    @RequestMapping(value = "/{transactionId}", method = RequestMethod.GET)
     public ResponseEntity getTransaction(@PathVariable Long transactionId){
         return ResponseEntity.ok(service.getTransactionById(transactionId));
     }
     @RequestMapping(value ="/edit", method = RequestMethod.PUT)
-    public ResponseEntity editTransaction(@RequestBody TransactionInfo transaction,  HttpServletRequest request){
+    public ResponseEntity editTransaction(@RequestBody TransactionInfo transaction){
         try {
-            service.editTransaction(transaction,request.getUserPrincipal().getName());
+            service.editTransaction(transaction);
             return ResponseEntity.ok().build();
         } catch (Exception e) {
             return ResponseEntity.status(400).build();
