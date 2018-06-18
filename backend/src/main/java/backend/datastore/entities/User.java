@@ -19,6 +19,7 @@ public class User {
     private boolean active;
     private boolean deleted;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id")
     private List<Transaction> transactions;
 }
