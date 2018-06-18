@@ -1,6 +1,5 @@
 package backend.Service;
 
-import backend.converters.TransactionConverter;
 import backend.datastore.dao.CategoryRepository;
 import backend.datastore.dao.TransactionRepository;
 import backend.datastore.dao.UserRepository;
@@ -21,12 +20,9 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
-import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 
-
 import java.sql.Date;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -145,28 +141,7 @@ public class TransactionServiceTest {
 
     }
 
-    @Test
-    public void deleteTransaction() throws IncorrectParamsException, AppException {
 
-          //  transactionService.deleteTransaction(2l);
-        //    assertEquals(transactionService.getAllTransactions("user").size(),2);
-
-    }
-
-
-    @Test
-    public void getTransaction() {
-
-          //  assertEquals( transactionService.getTransactionById(1L).getDescription(),"des1");
-
-    }
-
-    @Test
-    public void editTransaction() {
-
-            //assertEquals(transactionService.getTransactionById(1L),ex);
-
-    }
 
     @Before
     public void init() throws IncorrectParamsException, AppException {
@@ -209,8 +184,7 @@ public class TransactionServiceTest {
         Mockito.when(transactionRepository.getAllExpenses("user",new Date(2011,10,4),new Date(2011,10,26))).thenReturn(Collections.singletonList(t2));
         Mockito.when(transactionRepository.getAllBalance("user")).thenReturn((float) 75.02);
         Mockito.when(transactionRepository.getBalanceBetweenDates("user",new Date(2011,10,15),new Date(2011,11,30))).thenReturn(-25f);
-        //Mockito.when(transactionService.getTransactionById((long) 2).getValue()).thenReturn((float) 100.02);
-       // Mockito.when(transactionService.editTransaction(TransactionConverter.toTransactionInfo(t3))));
+
     }
 
 
