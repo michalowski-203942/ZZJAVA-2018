@@ -119,9 +119,9 @@ public class TransactionRest {
 
 
     @RequestMapping(value = "/{transactionId}", method = RequestMethod.DELETE)
-    public ResponseEntity deleteTransaction (@PathVariable Long transactionId, HttpServletRequest request){
+    public ResponseEntity deleteTransaction (@PathVariable Long transactionId){
         try {
-            service.deleteTransaction(transactionId,request.getUserPrincipal().getName());
+            service.deleteTransaction(transactionId);
 
         } catch (Exception e) {
             return ResponseEntity.status(400).build();
