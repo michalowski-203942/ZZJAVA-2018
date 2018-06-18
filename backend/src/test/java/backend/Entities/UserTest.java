@@ -12,10 +12,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.Arrays;
-
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.mock;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
