@@ -28,9 +28,9 @@ public class Transaction {
     @NotNull
     private Date date;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    /*@ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    private User user;
+    private User user;*/
 
     @NotNull
     @ManyToOne
